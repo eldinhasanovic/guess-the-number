@@ -9,37 +9,43 @@ skor = document.querySelector(".hs");
 console.log(rndm);
 
 function submit() {
-  var br = broj.value;
+  var br = broj.value.trim();
+  console.log(br);
   broj.value = "";
-  if (score.innerHTML > 0) {
-    if (br > 20) {
-      pogodak.innerHTML = "uneti broj je veci od 20";
-    } else if (br < 0) {
-      pogodak.innerHTML = "uneti broj je manji od 1";
-    } else if (br > rndm) {
-      pogodak.innerHTML = "manje";
-    } else if (br < rndm) {
-      pogodak.innerHTML = "vise";
-    } else if (br == rndm) {
-      pogodak.innerHTML = "pogodili ste  broj";
-      play.style.display = "inline";
-      // score.innerHTML = "0";
-      dugme.preventDefault;
-      if (score.innerHTML > skor.innerHTML) {
-        skor.innerHTML = score.innerHTML;
+  if (br) {
+    if (score.innerHTML > 0) {
+      if (br > 20) {
+        pogodak.innerHTML = "uneti broj je veci od 20";
+      } else if (br < 0) {
+        pogodak.innerHTML = "uneti broj je manji od 1";
+      } else if (br > rndm) {
+        pogodak.innerHTML = "manje";
+      } else if (br < rndm) {
+        pogodak.innerHTML = "vise";
+      } else if (br == rndm) {
+        pogodak.innerHTML = "pogodili ste broj";
+        play.style.display = "inline";
+        // score.innerHTML = "0";
+        dugme.preventDefault;
+        dugme.setAttribute("onclick", "");
+
         container.style.backgroundColor = "green";
-        // localStorage.setItem("skor", skor.innerHTML);
+        if (score.innerHTML > skor.innerHTML) {
+          skor.innerHTML = score.innerHTML;
+          // localStorage.setItem("skor", skor.innerHTML);
+        }
       }
     }
   } else {
+    pogodak.innerHTML = "niste uneli broj";
+    // container.style.backgroundColor = "orange";
   }
-  // else if (br == 21) {
-  //     pogodak.innerHTML = "niste uneli broj";
-  //   }
 }
 var count = 0;
 dugme.addEventListener("click", function () {
-  count++;
+  if (pogodak.innerHTML != "pogodili ste broj") {
+    count++;
+  }
   score.innerHTML = 20 - count;
   if (score.innerHTML < 0) {
     score.innerHTML = 0;
@@ -57,6 +63,7 @@ function playagain() {
   pogodak.innerHTML = "prvo unesite broj";
   container.style.backgroundColor = "black";
   count = 0;
+  dugme.setAttribute("onclick", "submit()");
 }
 broj.addEventListener("keypress", function (event) {
   if (event.key === "Enter") {
